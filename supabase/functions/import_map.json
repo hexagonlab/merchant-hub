@@ -1,0 +1,9 @@
+{
+    "imports": {
+      "server": "https://deno.land/std@0.168.0/http/server.ts",
+      "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.7.1",
+      "qrcode": "https://deno.land/x/qrcode@v2.0.0/mod.ts",
+      "zod": "https://deno.land/x/zod@v3.16.1/mod.ts",
+      "djwt": "https://deno.land/x/djwt@v1.9/mod.ts"
+    }
+}

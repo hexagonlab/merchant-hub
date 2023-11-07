@@ -1,0 +1,7 @@
+.next
+.husky
+*.css
+*.json
+node_modules
+.gitignore
+types/supabase.ts
