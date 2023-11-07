@@ -1,4 +1,4 @@
-import { handleDeleteEmployee } from '@/app/dashboard/actions';
+import { handleDeleteEmployee } from '@/app/(private)/dashboard/actions';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,

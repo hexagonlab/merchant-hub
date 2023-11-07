@@ -1,8 +1,8 @@
-import { fetchDataDashboard } from './actions';
-import AdminActions from './components/admin-actions';
-import Statistic from './components/statistic';
-import Sales from './components/sales';
-import Toolbar from './components/toolbar';
+import { fetchDataDashboard } from './dashboard/actions';
+import AdminActions from './dashboard/components/admin-actions';
+import Statistic from './dashboard/components/statistic';
+import Sales from './dashboard/components/sales';
+import Toolbar from './dashboard/components/toolbar';
 
 type TProps = {
   searchParams: TSearchParams;

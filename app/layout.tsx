@@ -4,8 +4,8 @@ import { Mulish as FontSans } from 'next/font/google';
 import { cn } from '@/lib/utils';
 
 export const metadata = {
-  title: 'GO PAY - Merchant',
-  description: 'created by Hexagon Labs',
+  title: 'MERCHANT HUB',
+  description: 'created by Khamble boys',
 };
 
 const fontSans = FontSans({

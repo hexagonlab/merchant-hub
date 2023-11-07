@@ -31,7 +31,7 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { Dispatch, SetStateAction } from 'react';
-import { handleUpdateEmployee } from '@/app/dashboard/actions';
+import { handleUpdateEmployee } from '@/app/(private)/dashboard/actions';
 
 type TProps = {
   branches: TBranch[];

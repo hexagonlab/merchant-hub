@@ -1,4 +1,4 @@
-import { handleDeleteBranch } from '@/app/dashboard/actions';
+import { handleDeleteBranch } from '@/app/(private)/dashboard/actions';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,

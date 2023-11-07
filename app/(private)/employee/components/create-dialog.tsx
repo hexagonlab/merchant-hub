@@ -32,7 +32,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
-import { handleCreateUser } from '@/app/dashboard/actions';
+import { handleCreateUser } from '@/app/(private)/dashboard/actions';
 
 type TProps = {
   branches: TBranch[];

@@ -35,7 +35,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
 import { useEffect, useState } from 'react';
-import { handleCreateBranch } from '@/app/dashboard/actions';
+import { handleCreateBranch } from '@/app/(private)/dashboard/actions';
 
 type TProps = {
   cities: TCity[];
