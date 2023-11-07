@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import logo from '../../../public/logo-light.png';
 
 import {
   Form,
@@ -174,17 +173,9 @@ export function DynamicQR({ branches }: TProps) {
             {isQRCodeGenerated ? (
               <div className='grid place-content-center mt-4'>
                 <div className='border-2 border-dashed border-primary-100 flex flex-col items-center'>
-                  <div className='flex items-center pt-6 justify-center'>
-                    <Image
-                      src={logo}
-                      alt='Logo'
-                      sizes='100%'
-                      // Make the image display full width
-                      style={{
-                        width: '100%',
-                        height: 'auto',
-                      }}
-                    />
+                  <div className='flex items-center pt-6 justify-center text-2xl font-bold'>
+                    <span className='text-primary-500'>MERCHANT</span>
+                    <span>&nbsp;HUB</span>
                   </div>
                   <div className='text-xs font-bold text-center whitespace-pre-wrap mt-4 max-w-[152px]'>
                     {watchItem}

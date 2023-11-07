@@ -1,15 +1,13 @@
-import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
 import {
   User,
   createServerComponentClient,
 } from '@supabase/auth-helpers-nextjs';
-import { cn } from '@/lib/utils';
+import { LogOut as LogOutIcon, User as UserIcon } from 'lucide-react';
 import { cookies, headers } from 'next/headers';
-import Image from 'next/image';
-import logo from '../public/logo-light.png';
+import Link from 'next/link';
 import { Button } from './ui/button';
-import { ChevronDownIcon } from '@radix-ui/react-icons';
-import { User as UserIcon, LogOut as LogOutIcon } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
