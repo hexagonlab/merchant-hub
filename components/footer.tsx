@@ -1,7 +1,3 @@
-import Link from 'next/link';
-import logo from '../public/logo-light.png';
-import Image from 'next/image';
-
 export default async function Footer() {
   return (
     <footer className='w-full flex justify-between border-t border-t-foreground/10 h-12 px-6 xl:px-24 text-sm items-center font-bold'>

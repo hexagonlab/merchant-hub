@@ -43,26 +43,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  if (session) {
-    const { data: roleData } = await supabaseAdmin
-      .from('user_role')
-      .select('role')
-      .match({
-        user_id: session.user.id,
-      });
-
-    return res;
-    return NextResponse.redirect(new URL('/dashboard', req.url));
-    if (roleData && roleData.length > 0) {
-      const isMerchant = roleData.find((r) => r.role?.startsWith('merchant'));
-      if (isMerchant) {
-        if (req.nextUrl.pathname == '/') {
-        }
-      }
-    }
-    return NextResponse.redirect(new URL('/403', req.url));
-  }
-
   return res;
 }
 
