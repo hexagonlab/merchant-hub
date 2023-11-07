@@ -35,11 +35,11 @@ import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { Building, LucideQrCode } from 'lucide-react';
 import { CreateStaticQRSchema } from '@/lib/schema';
-import { handleCreateStaticQR } from '../../dashboard/actions';
 import { InputItem } from '@/components/ui/input-item';
 import { useState } from 'react';
 import { jsPDF } from 'jspdf';
 import 'svg2pdf.js';
+import { handleCreateStaticQR } from '../../dashboard/actions';
 
 type TProps = {
   branches: TBranch[];

@@ -1,15 +1,12 @@
 'use client';
-import { Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogClose,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -18,12 +15,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
-import { CreateBranchSchema } from '@/lib/schema';
+import { handleUpdateBranch } from '@/app/(private)/dashboard/actions';
 import {
   Select,
   SelectContent,
@@ -31,11 +29,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useToast } from '@/components/ui/use-toast';
-import { useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/components/ui/use-toast';
+import { CreateBranchSchema } from '@/lib/schema';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { handleUpdateBranch } from '@/app/(private)/dashboard/actions';
 
 type TProps = {
   cities: TCity[];

@@ -1,6 +1,6 @@
-import { fetchDataBranch } from '../dashboard/actions';
 import Toolbar from './components/toolbar';
 import BranchList from './components/branch-list';
+import { fetchDataBranch } from '../dashboard/actions';
 
 export default async function Index() {
   const { branches, cities, banks, districts, merchants } =
