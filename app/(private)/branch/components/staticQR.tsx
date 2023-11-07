@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import logo from '../../../public/logo-light.png';
+import logo from '../../../../public/logo-light.png';
 
 import {
   Form,
