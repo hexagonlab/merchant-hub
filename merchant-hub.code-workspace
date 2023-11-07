@@ -5,7 +5,7 @@
       "path": "./"
     },
     {
-      "name": "flexpay",
+      "name": "merchant-hub",
       "path": "./app"
     },
     {

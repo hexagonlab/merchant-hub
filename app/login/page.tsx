@@ -1,11 +1,13 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -14,16 +16,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
+import { InputEmail } from '@/components/ui/input-email';
+import { InputPassword } from '@/components/ui/input-password';
 import { useToast } from '@/components/ui/use-toast';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
+import { useForm } from 'react-hook-form';
 import logo from '../../public/logo-light.png';
-import { Checkbox } from '@/components/ui/checkbox';
-import { InputEmail } from '@/components/ui/input-email';
-import { InputPassword } from '@/components/ui/input-password';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -73,17 +72,9 @@ export default function Forgot() {
     <div className='flex-grow grid justify-center bg-theme-img bg-center'>
       <div className='flex flex-col w-[380px] justify-center'>
         <Card className=' rounded-3xl shadow-sm shadow-primary'>
-          <div className='flex items-center px-8 py-6 justify-center'>
-            <Image
-              src={logo}
-              alt='Logo'
-              sizes='10vw'
-              // Make the image display full width
-              style={{
-                width: '50%',
-                height: 'auto',
-              }}
-            />
+          <div className='flex items-center px-8 py-6 justify-center text-3xl font-bold'>
+            <span className='text-primary-500'>MERCHANT</span>
+            <span>&nbsp;HUB</span>
           </div>
           <CardContent>
             <Form {...form}>

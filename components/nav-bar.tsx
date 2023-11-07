@@ -84,16 +84,9 @@ export default async function NavBar() {
 
   return (
     <nav className='w-full flex justify-between border-b border-b-foreground/10 h-16 px-6 xl:px-24 text-sm'>
-      <div className='flex items-center'>
-        <Image
-          src={logo}
-          alt='Logo'
-          // Make the image display full width
-          style={{
-            width: 'auto',
-            height: '24px',
-          }}
-        />
+      <div className='flex items-center text-2xl font-bold'>
+        <span className='text-primary-500'>MERCHANT</span>
+        <span>&nbsp;HUB</span>
       </div>
 
       <div className='flex justify-center items-center gap-2 px-2'>
