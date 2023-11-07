@@ -56,6 +56,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - robots.txt (robots file)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|bg1.jpg|403|404).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|bg1.jpg|403|404|reset|forgot|auth/callback|auth/sigh-out).*)',
   ],
 };
