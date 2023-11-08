@@ -25,6 +25,7 @@ export type InvoiceProps = {
 
 export default function PaymentButton({ invoices, branches }: InvoiceProps) {
   const [selected, setSelected] = useState<TInvoice | undefined>();
+  const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const onPay = async () => {
     console.log('paid');
@@ -61,6 +62,8 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
 
     const payment = await payInvoice(paid);
 
+    setOpen(false);
+
     if (payment.success) {
       toast({
         title: 'Амжилттай',
@@ -76,7 +79,7 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
 
   return (
     <>
-      <Dialog>
+      <Dialog onOpenChange={setOpen} open={open}>
         <DialogTrigger asChild>
           <Button className=' bg-gradient-to-r from-primary-500 to-primary-900 font-bold rounded-lg cursor-pointer'>
             Төлөх

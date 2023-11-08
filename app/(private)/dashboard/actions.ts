@@ -210,6 +210,8 @@ export const fetchDataDashboard = async (searchParams: TSearchParams) => {
   };
 
   const sales = await getSales(isAdmin, merchants, branches, filters);
+  const branch_ids = branches.map((m) => m.id);
+  const invoices = await getInvoices(branch_ids);
 
   const settledAmount =
     sales
@@ -217,8 +219,8 @@ export const fetchDataDashboard = async (searchParams: TSearchParams) => {
       .map((s) => s.amount)
       .reduce((a, b) => Number(a) + Number(b), 0) || 0;
   const unSettledAmount =
-    sales
-      .filter((s) => s.status !== 'CONFIRMED')
+    invoices
+      .filter((s) => s.status !== 'PAID')
       .map((s) => s.amount)
       .reduce((a, b) => Number(a) + Number(b), 0) || 0;
   const buyers = uniqBy(sales, (obj) => obj['buyer_id_number']).length;
@@ -229,9 +231,6 @@ export const fetchDataDashboard = async (searchParams: TSearchParams) => {
     unSettledAmount,
     buyers,
   };
-
-  const branch_ids = branches.map((m) => m.id);
-  const invoices = await getInvoices(branch_ids);
 
   revalidatePath('/');
 
@@ -529,19 +528,24 @@ export const handleCreateDynamicQR = async (
       if (invoicesError) {
         return { success: false, message: invoicesError.message, data: null };
       } else if (invoices) {
+        revalidatePath('/');
         return {
           success: true,
-          message: 'Succeeded to create static QR',
+          message: 'Succeeded to create dynamic QR',
           data: { ...invoices },
         };
       }
     }
-    return { success: true, message: 'Failed to create static QR', data: null };
+    return {
+      success: true,
+      message: 'Failed to create dynamic QR',
+      data: null,
+    };
   } catch (e) {
     console.log('exception', e);
     return {
       success: false,
-      message: 'Failed to create static QR',
+      message: 'Failed to create dynamic QR',
       data: null,
     };
   }
@@ -594,6 +598,7 @@ export const handleCreateStaticQR = async (
       if (invoicesError) {
         return { success: false, message: invoicesError.message, data: null };
       } else if (invoices) {
+        revalidatePath('/branch');
         return {
           success: true,
           message: 'Succeeded to create static QR',
