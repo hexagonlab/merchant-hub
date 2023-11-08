@@ -515,15 +515,15 @@ export const handleCreateStaticQR = async (
       if (!user)
         return { success: false, message: 'unauthenticated', data: null };
 
-      const { data: branch } = await supabaseAdmin
+      const { data: branch, error: branchError } = await supabaseAdmin
         .from('branches')
-        .select('merchants(id, lender_id, product_id)')
+        .select('merchants(id, product_id)')
         .eq('id', Number(branch_id))
         .single();
-      if (!branch)
+      if (branchError)
         return { success: false, message: 'branch not found', data: null };
 
-      const { id: merchant_id, lender_id, product_id } = branch.merchants!;
+      const { id: merchant_id, product_id } = branch.merchants!;
 
       const { data: invoices, error: invoicesError } = await supabaseAdmin
         .from('invoices')
@@ -531,7 +531,6 @@ export const handleCreateStaticQR = async (
           {
             created_by: user.id,
             status: 'NEW',
-            lender_id,
             merchant_id,
             merchant_branch_id: Number(branch_id),
             qr_type: 'STATIC',
