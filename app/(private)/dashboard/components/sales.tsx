@@ -16,6 +16,7 @@ export default function Sales({ branches, sales, invoices }: TProps) {
         <div className='font-bold'>Борлуулалтын жагсаалт</div>
         <div className='flex gap-2'>
           <DynamicQR branches={branches} />
+
           <PaymentButton invoices={invoices} branches={branches} />
         </div>
       </div>

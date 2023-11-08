@@ -11,7 +11,7 @@ import {
 import { FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { RadioGroupItem, RadioGroup } from '@/components/ui/radio-group';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { payInvoice } from '../actions';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -26,7 +26,23 @@ export type InvoiceProps = {
 export default function PaymentButton({ invoices, branches }: InvoiceProps) {
   const [selected, setSelected] = useState<TInvoice | undefined>();
   const [open, setOpen] = useState(false);
+  const [speech, setSpeech] = useState<string>('2000 paid');
   const { toast } = useToast();
+  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
+    null
+  );
+
+  useEffect(() => {
+    const synth = window.speechSynthesis;
+    const u = new SpeechSynthesisUtterance(speech);
+
+    setUtterance(u);
+
+    // return () => {
+    //   synth.cancel();
+    // };
+  }, [speech]);
+
   const onPay = async () => {
     console.log('paid');
     if (!selected) {
@@ -62,8 +78,6 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
 
     const payment = await payInvoice(paid);
 
-    setOpen(false);
-
     if (payment.success) {
       toast({
         title: 'Амжилттай',
@@ -75,6 +89,15 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
         description: payment.message,
       });
     }
+
+    const synth = window.speechSynthesis;
+
+    if (utterance) {
+      console.log('starting');
+
+      synth.speak(utterance);
+    }
+    setOpen(false);
   };
 
   return (
@@ -91,7 +114,9 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
           </DialogHeader>
           <RadioGroup
             onValueChange={(t) => {
-              setSelected(invoices.find((x) => x.id == Number(t)));
+              const invoice = invoices.find((x) => x.id == Number(t));
+              setSelected(invoice);
+              setSpeech(`${invoice?.amount} paid successfully!`);
             }}
             defaultValue={selected?.id.toString()}
             className='flex flex-col space-y-1'
