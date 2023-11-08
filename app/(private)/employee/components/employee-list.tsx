@@ -122,7 +122,7 @@ export default function EmployeeList({ employees, branches, roles }: TProps) {
 
   return (
     <>
-      <DataTable columns={columns} data={employees} />;
+      <DataTable columns={columns} data={employees} />
       <DeleteDialog state={deleteDialogState} setState={setDeleteDialogState} />
       <UpdateDialog
         state={updateDialogState}

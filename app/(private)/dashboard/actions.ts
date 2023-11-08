@@ -63,6 +63,7 @@ export async function getUserDetail() {
   // Get branches of current Non user
 
   const merchants_ids = merchants.map((m) => m.id);
+  console.log(merchants_ids);
 
   if (isAdmin) {
     const { data: merchantBranches } = await supabaseAdmin
@@ -70,6 +71,7 @@ export async function getUserDetail() {
       .select('*, cities(name), districts(name)')
       .in('merchant_id', merchants_ids);
     if (merchantBranches && merchantBranches.length > 0) {
+      console.log(merchantBranches);
       branches = merchantBranches;
     }
   } else {
@@ -84,9 +86,12 @@ export async function getUserDetail() {
     }
   }
 
-  const { data: merchant_roles } = await supabase.from('roles').select().match({
-    name: 'merchant_user',
-  });
+  const { data: merchant_roles } = await supabaseAdmin
+    .from('roles')
+    .select()
+    .match({
+      name: 'merchant_user',
+    });
 
   if (merchant_roles && merchant_roles.length > 0) {
     roles = merchant_roles;
@@ -441,15 +446,18 @@ export const handleCreateDynamicQR = async (
       if (!user)
         return { success: false, message: 'unauthenticated', data: null };
 
-      const { data: branch } = await supabaseAdmin
+      const { data: branch, error: branchError } = await supabaseAdmin
         .from('branches')
-        .select('merchants(id, lender_id, product_id)')
+        .select('merchants(id, product_id)')
         .eq('id', Number(branch_id))
         .single();
-      if (!branch)
+      console.log(branch);
+      if (branchError) {
+        console.log(branchError);
         return { success: false, message: 'branch not found', data: null };
+      }
 
-      const { id: merchant_id, lender_id, product_id } = branch.merchants!;
+      const { id: merchant_id, product_id } = branch.merchants!;
 
       const { data: invoices, error: invoicesError } = await supabaseAdmin
         .from('invoices')
@@ -458,7 +466,6 @@ export const handleCreateDynamicQR = async (
             created_by: user.id,
             amount: Number(amount),
             status: 'NEW',
-            lender_id,
             merchant_id,
             merchant_branch_id: Number(branch_id),
             qr_type: 'DYNAMIC',

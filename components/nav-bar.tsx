@@ -1,12 +1,11 @@
-import { cn } from '@/lib/utils';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import {
   User,
   createServerComponentClient,
 } from '@supabase/auth-helpers-nextjs';
 import { LogOut as LogOutIcon, User as UserIcon } from 'lucide-react';
-import { cookies, headers } from 'next/headers';
-import Link from 'next/link';
+import { cookies } from 'next/headers';
+import MenuList from './menu-list';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -20,7 +19,7 @@ export const dynamic = 'force-dynamic';
 const ADMIN_MENUS = [
   {
     title: 'Хянах самбар',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Салбар',
@@ -35,11 +34,11 @@ const ADMIN_MENUS = [
 const USER_MENUS = [
   {
     title: 'Хянах самбар',
-    href: '/dashboard',
+    href: '/',
   },
 ];
 
-type Menu = {
+export type Menu = {
   title: string;
   href: string;
 };
@@ -47,8 +46,6 @@ type Menu = {
 const fetchData = async () => {
   let user: User | null = null;
   let menus: Menu[] = [];
-  const headersList = headers();
-  const pathName = headersList.get('x-current-pathname') || '';
 
   const supabase = createServerComponentClient({ cookies });
   const { data } = await supabase.auth.getUser();
@@ -73,12 +70,11 @@ const fetchData = async () => {
   return {
     user,
     menus,
-    pathName,
   };
 };
 
 export default async function NavBar() {
-  const { user, menus, pathName } = await fetchData();
+  const { user, menus } = await fetchData();
 
   return (
     <nav className='w-full flex justify-between border-b border-b-foreground/10 h-16 px-6 xl:px-24 text-sm'>
@@ -88,22 +84,7 @@ export default async function NavBar() {
       </div>
 
       <div className='flex justify-center items-center gap-2 px-2'>
-        {menus.map((m) => {
-          return (
-            <Link
-              href={m.href}
-              key={m.title}
-              className={cn(
-                'flex items-center px-4 h-full font-bold',
-                pathName == m.href
-                  ? 'text-primary-500 border-b-2 border-b-primary-500'
-                  : ''
-              )}
-            >
-              {m.title}
-            </Link>
-          );
-        })}
+        <MenuList menus={menus} />
       </div>
 
       <div className='flex items-center space-x-1 rounded-md text-primary-500 cursor-pointer'>

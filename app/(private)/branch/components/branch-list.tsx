@@ -156,7 +156,7 @@ export default function BranchList({
   ];
   return (
     <>
-      <DataTable columns={columns} data={branches} />;
+      <DataTable columns={columns} data={branches} />
       <DeleteDialog state={deleteDialogState} setState={setDeleteDialogState} />
       <UpdateDialog
         state={updateDialogState}
