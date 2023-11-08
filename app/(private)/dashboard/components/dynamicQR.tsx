@@ -61,7 +61,6 @@ export function DynamicQR({ branches }: TProps) {
   const watchItem = watch('item');
 
   const onSubmit = async (formData: z.infer<typeof CreateDynamicQRSchema>) => {
-    console.log(formData);
     const { success, message, data } = await handleCreateDynamicQR(formData);
 
     if (success && data) {

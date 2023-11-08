@@ -63,7 +63,6 @@ export async function getUserDetail() {
   // Get branches of current Non user
 
   const merchants_ids = merchants.map((m) => m.id);
-  console.log(merchants_ids);
 
   if (isAdmin) {
     const { data: merchantBranches } = await supabaseAdmin
@@ -71,7 +70,6 @@ export async function getUserDetail() {
       .select('*, cities(name), districts(name)')
       .in('merchant_id', merchants_ids);
     if (merchantBranches && merchantBranches.length > 0) {
-      console.log(merchantBranches);
       branches = merchantBranches;
     }
   } else {
@@ -124,6 +122,20 @@ const getCities = async () => {
 };
 const getDistricts = async () => {
   const { data } = await supabaseAdmin.from('districts').select();
+
+  if (data && data.length > 0) {
+    return data;
+  }
+  return [];
+};
+
+const getInvoices = async (branch_ids: number[]) => {
+  const { data } = await supabaseAdmin
+    .from('invoices')
+    .select()
+    .eq('qr_type', 'DYNAMIC')
+    .eq('status', 'NEW')
+    .in('merchant_branch_id', branch_ids);
 
   if (data && data.length > 0) {
     return data;
@@ -218,9 +230,48 @@ export const fetchDataDashboard = async (searchParams: TSearchParams) => {
     buyers,
   };
 
-  revalidatePath('/dashboard');
+  const branch_ids = branches.map((m) => m.id);
+  const invoices = await getInvoices(branch_ids);
 
-  return { ...data, banks, cities, districts, sales, statisticData };
+  revalidatePath('/');
+
+  return { ...data, banks, cities, districts, sales, statisticData, invoices };
+};
+
+type TPaymentInvoice =
+  Database['public']['Tables']['payment_invoices']['Insert'];
+
+export const payInvoice = async (payment: TPaymentInvoice) => {
+  const { data, error } = await supabaseAdmin
+    .from('payment_invoices')
+    .insert(payment)
+    .select()
+    .single();
+
+  const { error: errorInvoice } = await supabaseAdmin
+    .from('invoices')
+    .update({
+      status: 'PAID',
+    })
+    .eq('id', payment.invoice_id!!);
+
+  revalidatePath('/');
+
+  if (errorInvoice) {
+    console.log(errorInvoice);
+  }
+
+  if (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+
+  return {
+    success: true,
+    data: data,
+  };
 };
 
 export const fetchDataBranch = async () => {
@@ -451,7 +502,7 @@ export const handleCreateDynamicQR = async (
         .select('merchants(id, product_id)')
         .eq('id', Number(branch_id))
         .single();
-      console.log(branch);
+
       if (branchError) {
         console.log(branchError);
         return { success: false, message: 'branch not found', data: null };

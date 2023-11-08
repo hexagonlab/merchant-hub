@@ -19,6 +19,7 @@ export default async function Index({ searchParams }: TProps) {
     isAdmin,
     sales,
     statisticData,
+    invoices,
   } = await fetchDataDashboard(searchParams);
 
   return (
@@ -26,7 +27,7 @@ export default async function Index({ searchParams }: TProps) {
       <div className='flex-grow'>
         <Toolbar branches={branches} isAdmin={isAdmin} />
         <Statistic data={statisticData} />
-        <Sales branches={branches} sales={sales} />
+        <Sales branches={branches} sales={sales} invoices={invoices} />
       </div>
 
       {isAdmin ? (
