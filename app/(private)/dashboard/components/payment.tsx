@@ -11,9 +11,10 @@ import {
 import { FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { RadioGroupItem, RadioGroup } from '@/components/ui/radio-group';
-import { useEffect, useState } from 'react';
-import { payInvoice } from '../actions';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import { fetchWave, payInvoice } from '../actions';
 import { useToast } from '@/components/ui/use-toast';
+import { blob } from 'stream/consumers';
 
 type TPaymentInvoice =
   Database['public']['Tables']['payment_invoices']['Insert'];
@@ -27,6 +28,8 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
   const [selected, setSelected] = useState<TInvoice | undefined>();
   const [open, setOpen] = useState(false);
   const [speech, setSpeech] = useState<string>('2000 paid');
+  const [audio, setAudio] = useState<string>();
+  const audioPlayer = useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
   const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
     null
@@ -42,6 +45,24 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
     //   synth.cancel();
     // };
   }, [speech]);
+
+  const convertToAudio = async () => {
+    if (speech) {
+      const result = await fetchWave(speech);
+      console.log(result);
+
+      setAudio(result);
+      setTimeout(() => {
+        if (audioPlayer.current) {
+          audioPlayer.current.load();
+          audioPlayer.current.play();
+          console.log('played', audioPlayer.current);
+        }
+      }, 1000);
+    } else {
+      console.log('сонгоогүй байна.');
+    }
+  };
 
   const onPay = async () => {
     console.log('paid');
@@ -90,14 +111,15 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
       });
     }
 
-    const synth = window.speechSynthesis;
+    // const synth = window.speechSynthesis;
 
-    if (utterance) {
-      console.log('starting');
+    // if (utterance) {
+    //   console.log('starting');
 
-      synth.speak(utterance);
-    }
-    setOpen(false);
+    //   synth.speak(utterance);
+    // }
+
+    await convertToAudio();
   };
 
   return (
@@ -116,7 +138,7 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
             onValueChange={(t) => {
               const invoice = invoices.find((x) => x.id == Number(t));
               setSelected(invoice);
-              setSpeech(`${invoice?.amount} paid successfully!`);
+              setSpeech(`${invoice?.amount} төгрөг амжилттай төлөгдлөө`);
             }}
             defaultValue={selected?.id.toString()}
             className='flex flex-col space-y-1'
@@ -135,6 +157,11 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
               </FormItem>
             ))}
           </RadioGroup>
+
+          <audio ref={audioPlayer}>
+            <source src={audio} type='audio/wav' />
+            Your browser does not support the audio tag.
+          </audio>
 
           <div className='flex justify-end items-center gap-2'>
             <DialogClose asChild>

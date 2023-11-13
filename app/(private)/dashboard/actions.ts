@@ -15,6 +15,10 @@ import {
 } from '@/lib/schema';
 import { z } from 'zod';
 import { redirect } from 'next/navigation';
+import { writeFileSync } from 'fs';
+import { randomUUID } from 'crypto';
+import path from 'path';
+import { blob } from 'stream/consumers';
 
 const supabaseAdmin = createClient<Database>(supabaseUrl, supabaseServiceKey, {
   auth: {
@@ -756,4 +760,45 @@ export const handleUpdateEmployee = async (
     console.log('exception', e);
     return { success: false, message: 'Failed to update user' };
   }
+};
+
+export const fetchWave = async (speech: string) => {
+  const result = await fetch('https://api.chimege.com/v1.2/normalize-text', {
+    method: 'POST',
+    body: speech,
+    mode: 'no-cors',
+    headers: {
+      'Access-Control-Allow-Origin': 'keyloak',
+      'Access-Control-Allow-Headers': 'token',
+      'Content-Type': 'plain/text',
+      token: 'c478e7097855cc25cf6b98ab687c75895ff8d84dbb20a84bc61c7755b6d60efe',
+    },
+  });
+
+  const normalized = await result.text();
+  console.log('normalized', normalized);
+
+  const audio = await fetch('https://api.chimege.com/v1.2/synthesize', {
+    method: 'POST',
+    body: normalized,
+    mode: 'no-cors',
+    headers: {
+      'Access-Control-Allow-Origin': 'keyloak',
+      'Access-Control-Allow-Headers': 'token',
+      'Content-Type': 'plain/text',
+      token: 'c478e7097855cc25cf6b98ab687c75895ff8d84dbb20a84bc61c7755b6d60efe',
+    },
+  });
+
+  const filename = randomUUID();
+  const filePath = path.join(process.cwd(), 'public', filename + '.wav');
+  // const blob = await audio.blob();
+  // const file = new File([blob], filePath, {
+  //   type: blob.type,
+  // });
+
+  const r = await audio.arrayBuffer();
+  writeFileSync(filePath, new DataView(r));
+
+  return `/${filename}.wav`;
 };
