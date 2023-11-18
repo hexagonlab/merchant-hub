@@ -10,11 +10,10 @@ import {
 } from '@/components/ui/dialog';
 import { FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
-import { RadioGroupItem, RadioGroup } from '@/components/ui/radio-group';
-import { RefObject, useEffect, useRef, useState } from 'react';
-import { fetchWave, payInvoice } from '../actions';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/components/ui/use-toast';
-import { blob } from 'stream/consumers';
+import { useRef, useState } from 'react';
+import { fetchWave, payInvoice } from '../actions';
 
 type TPaymentInvoice =
   Database['public']['Tables']['payment_invoices']['Insert'];
@@ -31,20 +30,6 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
   const [audio, setAudio] = useState<string>();
   const audioPlayer = useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
-  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
-    null
-  );
-
-  useEffect(() => {
-    const synth = window.speechSynthesis;
-    const u = new SpeechSynthesisUtterance(speech);
-
-    setUtterance(u);
-
-    // return () => {
-    //   synth.cancel();
-    // };
-  }, [speech]);
 
   const convertToAudio = async () => {
     if (speech) {

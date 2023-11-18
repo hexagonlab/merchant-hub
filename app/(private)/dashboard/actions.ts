@@ -19,6 +19,7 @@ import { writeFileSync } from 'fs';
 import { randomUUID } from 'crypto';
 import path from 'path';
 import { blob } from 'stream/consumers';
+import { uploadFile } from '@/lib/s3';
 
 const supabaseAdmin = createClient<Database>(supabaseUrl, supabaseServiceKey, {
   auth: {
@@ -783,7 +784,6 @@ export const fetchWave = async (speech: string) => {
     body: normalized,
     mode: 'no-cors',
     headers: {
-      'Access-Control-Allow-Origin': 'keyloak',
       'Access-Control-Allow-Headers': 'token',
       'Content-Type': 'plain/text',
       token: 'c478e7097855cc25cf6b98ab687c75895ff8d84dbb20a84bc61c7755b6d60efe',
@@ -798,7 +798,8 @@ export const fetchWave = async (speech: string) => {
   // });
 
   const r = await audio.arrayBuffer();
-  writeFileSync(filePath, new DataView(r));
+  uploadFile(filename + '.wav', r);
+  // writeFileSync(filePath, new DataView(r));
 
-  return `/${filename}.wav`;
+  return `https://merchanhub.s3.ap-southeast-1.amazonaws.com/${filename}.wav`;
 };
