@@ -798,8 +798,17 @@ export const fetchWave = async (speech: string) => {
   // });
 
   const r = await audio.arrayBuffer();
-  uploadFile(filename + '.wav', r);
+  // uploadFile(filename + '.wav', r);
   // writeFileSync(filePath, new DataView(r));
 
-  return `https://merchanhub.s3.ap-southeast-1.amazonaws.com/${filename}.wav`;
+  return 'data:audio/wav;base64,' + arrayBufferToBase64;
 };
+
+function arrayBufferToBase64(buffer: ArrayBuffer) {
+  const binary = new Uint8Array(buffer);
+  const bytes = binary.reduce(
+    (data, byte) => data + String.fromCharCode(byte),
+    ''
+  );
+  return btoa(bytes);
+}
