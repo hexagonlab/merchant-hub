@@ -3,7 +3,7 @@
 import { uniqBy } from 'lodash';
 import { supabaseServiceKey, supabaseUrl } from '@/lib/supabase';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import {
@@ -533,7 +533,7 @@ export const handleCreateDynamicQR = async (
       if (invoicesError) {
         return { success: false, message: invoicesError.message, data: null };
       } else if (invoices) {
-        revalidatePath('/');
+        revalidateTag('invoices');
         return {
           success: true,
           message: 'Succeeded to create dynamic QR',
