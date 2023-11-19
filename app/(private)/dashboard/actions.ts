@@ -181,6 +181,9 @@ const getSales = async (
     sp.lte('created_at', to);
   }
 
+  sp.order('id', {
+    ascending: false,
+  });
   const { data, error } = await sp;
 
   if (data && data.length > 0) {
