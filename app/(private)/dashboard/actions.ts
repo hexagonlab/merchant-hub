@@ -801,7 +801,7 @@ export const fetchWave = async (speech: string) => {
   // uploadFile(filename + '.wav', r);
   // writeFileSync(filePath, new DataView(r));
 
-  return 'data:audio/wav;base64,' + arrayBufferToBase64;
+  return 'data:audio/wav;base64,' + arrayBufferToBase64(r);
 };
 
 function arrayBufferToBase64(buffer: ArrayBuffer) {
