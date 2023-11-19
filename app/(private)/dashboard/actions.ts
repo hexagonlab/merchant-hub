@@ -20,7 +20,6 @@ import { randomUUID } from 'crypto';
 import path from 'path';
 import { blob } from 'stream/consumers';
 import { uploadFile } from '@/lib/s3';
-import { put } from '@vercel/blob';
 
 const supabaseAdmin = createClient<Database>(supabaseUrl, supabaseServiceKey, {
   auth: {
@@ -799,10 +798,8 @@ export const fetchWave = async (speech: string) => {
   // });
 
   const r = await audio.arrayBuffer();
-  const blob = await put(filename + '.wav', r, {
-    access: 'public',
-  });
+  uploadFile(filename + '.wav', r);
   // writeFileSync(filePath, new DataView(r));
-  // had to change file
-  return blob.url;
+
+  return `https://merchanhub.s3.ap-southeast-1.amazonaws.com/${filename}.wav`;
 };

@@ -1,4 +1,9 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  ObjectCannedACL,
+  PutObjectCommand,
+  PutObjectCommandInput,
+  S3Client,
+} from '@aws-sdk/client-s3';
 
 export const client = new S3Client({
   region: process.env.AWS_REGION,
@@ -9,15 +14,12 @@ export const client = new S3Client({
 });
 
 export async function uploadFile(key: string, arrayBuffer: ArrayBuffer) {
-  const params = {
+  const params: PutObjectCommandInput = {
+    ACL: ObjectCannedACL.public_read,
     Bucket: 'merchanhub',
     Key: key,
     Body: Buffer.from(arrayBuffer),
     Tagging: 'public=yes',
-    Metadata: {
-      // Metadata
-      'Content-Type': 'audio/wav',
-    },
   };
 
   try {
