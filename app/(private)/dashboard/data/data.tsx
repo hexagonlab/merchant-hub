@@ -3,12 +3,12 @@ import { CheckCircledIcon, StopwatchIcon } from '@radix-ui/react-icons';
 export const statuses = [
   {
     value: 'CONFIRMED',
-    label: 'төлөгдсөн',
+    label: 'Төлөгдсөн',
     icon: CheckCircledIcon,
   },
   {
     value: 'UNSETTLED',
-    label: 'төлөгдөөгүй',
+    label: 'Амжилттай',
     icon: StopwatchIcon,
   },
 ];

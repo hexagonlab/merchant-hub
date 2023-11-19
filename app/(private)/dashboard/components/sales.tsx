@@ -12,7 +12,7 @@ type TProps = {
 };
 
 export default function Sales({ branches, sales, invoices }: TProps) {
-  const [audio, setAudio] = useState<string>('');
+  const [audio, setAudio] = useState<string | undefined>();
   const audioPlayer = useRef<HTMLAudioElement>(null);
 
   const play = (result: string) => {
@@ -40,7 +40,7 @@ export default function Sales({ branches, sales, invoices }: TProps) {
         <DataTable columns={columns} data={sales} />
 
         <audio ref={audioPlayer}>
-          <source src={audio} type='audio/wav' />
+          {audio && <source src={audio} type='audio/wav' />}
           Your browser does not support the audio tag.
         </audio>
       </div>

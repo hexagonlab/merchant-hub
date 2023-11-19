@@ -29,6 +29,10 @@ const ADMIN_MENUS = [
     title: 'Ажилчид',
     href: '/employee',
   },
+  {
+    title: 'Boost Sales ⚡',
+    href: '/boost/retain',
+  },
 ];
 
 const USER_MENUS = [

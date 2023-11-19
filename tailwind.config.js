@@ -67,7 +67,7 @@ module.exports = {
         },
         accent: {
           DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          foreground: '#339c8e',
         },
         popover: {
           DEFAULT: 'hsl(var(--popover))',
@@ -87,7 +87,7 @@ module.exports = {
           DEFAULT: '#5CB1FF',
         },
         purple: {
-          DEFAULT: '#9075FF',
+          DEFAULT: '#04715e',
         },
         red: {
           DEFAULT: '#F15980',

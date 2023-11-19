@@ -25,7 +25,7 @@ export default function Statistic({ data }: TProps) {
       </Card>
       <Card className=' p-6'>
         <div className='flex items-center justify-between text-sm font-semibold'>
-          <div>Дууссан төлбөр</div>
+          <div>Амжилттай төлбөр</div>
           <CheckCircle className='w-4 h-4' />
         </div>
         <div className=' text-3xl font-bold mt-3'>
@@ -34,7 +34,7 @@ export default function Statistic({ data }: TProps) {
       </Card>
       <Card className=' p-6'>
         <div className='flex items-center justify-between text-sm font-semibold'>
-          <div>Дуусаагүй төлбөр</div>
+          <div>Төлөгдсөн төлбөр</div>
           <XCircle className='w-4 h-4' />
         </div>
         <div className=' text-3xl font-bold mt-3'>

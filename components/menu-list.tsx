@@ -19,7 +19,8 @@ export default function MenuList({ menus }: MenuProps) {
             key={m.title}
             className={cn(
               'flex items-center px-4 h-full font-bold',
-              pathname == m.href
+              pathname == m.href ||
+                (pathname.includes('boost') && m.href.includes('boost'))
                 ? 'text-primary-500 border-b-2 border-b-primary-500'
                 : ''
             )}
