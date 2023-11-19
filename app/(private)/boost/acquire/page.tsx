@@ -149,6 +149,7 @@ function CustomerTypes({
       <h3 className='text-lg font-bold'>Сегментээс сонгох</h3>
       <ToggleGroup
         type='multiple'
+        variant='outline'
         onValueChange={onChange}
         defaultValue={current.map((x) => x.title)}
       >
