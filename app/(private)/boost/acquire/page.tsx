@@ -21,6 +21,8 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { Slider } from '@/components/ui/slider';
 
 type CustomerItem = {
   title: string;
@@ -164,6 +166,11 @@ function CustomerTypes({
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
+      <Label className='mb-6'>Нас</Label>
+      <Slider defaultValue={[1]} max={80} min={1} step={1} />
+
+      <Label className='mb-6'>Байршил (км)</Label>
+      <Slider defaultValue={[5]} max={100} min={5} step={5} />
     </>
   );
 }

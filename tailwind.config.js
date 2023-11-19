@@ -10,6 +10,9 @@ module.exports = {
     './src/**/*.{ts,tsx}',
   ],
   theme: {
+    colors: {
+      primary: '#04715e',
+    },
     container: {
       center: true,
       padding: '2rem',
@@ -28,7 +31,7 @@ module.exports = {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: '#E6E2FF',
+          DEFAULT: '#04715e',
           foreground: 'hsl(var(--primary-foreground))',
           50: '#ebf7f6',
           100: '#d8f0ee',

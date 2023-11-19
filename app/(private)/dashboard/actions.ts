@@ -140,7 +140,10 @@ const getInvoices = async (branch_ids: number[]) => {
     .select()
     .eq('qr_type', 'DYNAMIC')
     .eq('status', 'NEW')
-    .in('merchant_branch_id', branch_ids);
+    .in('merchant_branch_id', branch_ids)
+    .order('id', {
+      ascending: false,
+    });
 
   if (data && data.length > 0) {
     return data;
