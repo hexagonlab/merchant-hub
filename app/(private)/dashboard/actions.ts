@@ -1,11 +1,5 @@
 'use server';
 
-import { uniqBy } from 'lodash';
-import { supabaseServiceKey, supabaseUrl } from '@/lib/supabase';
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
-import { revalidatePath, revalidateTag } from 'next/cache';
-import { createClient } from '@supabase/supabase-js';
-import { cookies } from 'next/headers';
 import {
   CreateBranchSchema,
   CreateDynamicQRSchema,
@@ -13,13 +7,16 @@ import {
   CreateUserSchema,
   UpdateEmployeeSchema,
 } from '@/lib/schema';
-import { z } from 'zod';
-import { redirect } from 'next/navigation';
-import { writeFileSync } from 'fs';
+import { supabaseServiceKey, supabaseUrl } from '@/lib/supabase';
+import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@supabase/supabase-js';
 import { randomUUID } from 'crypto';
+import { uniqBy } from 'lodash';
+import { revalidatePath, revalidateTag } from 'next/cache';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import path from 'path';
-import { blob } from 'stream/consumers';
-import { uploadFile } from '@/lib/s3';
+import { z } from 'zod';
 
 const supabaseAdmin = createClient<Database>(supabaseUrl, supabaseServiceKey, {
   auth: {
@@ -28,13 +25,16 @@ const supabaseAdmin = createClient<Database>(supabaseUrl, supabaseServiceKey, {
   },
 });
 
-const supabase = createServerActionClient<Database>({ cookies });
-
 export async function getUserDetail() {
   let isAdmin = false;
   let branches: TBranch[] = [];
   let merchants: TMerchant[] = [];
   let roles: TRole[] = [];
+
+  const cookieStore = cookies();
+  const supabase = createServerActionClient<Database>({
+    cookies: () => cookieStore,
+  });
 
   // get current user
   const {
@@ -486,6 +486,10 @@ export const handleCreateDynamicQR = async (
   formData: z.infer<typeof CreateDynamicQRSchema>
 ) => {
   try {
+    const cookieStore = cookies();
+    const supabase = createServerActionClient<Database>({
+      cookies: () => cookieStore,
+    });
     const parsed = CreateDynamicQRSchema.safeParse(formData);
 
     if (!parsed.success) {
@@ -560,6 +564,10 @@ export const handleCreateStaticQR = async (
   formData: z.infer<typeof CreateStaticQRSchema>
 ) => {
   try {
+    const cookieStore = cookies();
+    const supabase = createServerActionClient<Database>({
+      cookies: () => cookieStore,
+    });
     const parsed = CreateStaticQRSchema.safeParse(formData);
 
     if (!parsed.success) {

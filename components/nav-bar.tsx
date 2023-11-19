@@ -48,6 +48,7 @@ export type Menu = {
 };
 
 const fetchData = async () => {
+  'use server';
   let user: User | null = null;
   let menus: Menu[] = [];
 
