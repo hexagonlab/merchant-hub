@@ -21,29 +21,24 @@ type TPaymentInvoice =
 export type InvoiceProps = {
   invoices: TInvoice[];
   branches: TBranch[];
+  play: (data: string) => void;
 };
 
-export default function PaymentButton({ invoices, branches }: InvoiceProps) {
+export default function PaymentButton({
+  invoices,
+  branches,
+  play,
+}: InvoiceProps) {
   const [selected, setSelected] = useState<TInvoice | undefined>();
   const [open, setOpen] = useState(false);
   const [speech, setSpeech] = useState<string>('2000 paid');
-  const [audio, setAudio] = useState<string>();
-  const audioPlayer = useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
 
   const convertToAudio = async () => {
     if (speech) {
       const result = await fetchWave(speech);
       console.log(result);
-
-      setAudio(result);
-      setTimeout(() => {
-        if (audioPlayer.current) {
-          audioPlayer.current.load();
-          audioPlayer.current.play();
-          console.log('played', audioPlayer.current);
-        }
-      }, 1000);
+      play(result);
     } else {
       console.log('сонгоогүй байна.');
     }
@@ -85,6 +80,7 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
     const payment = await payInvoice(paid);
 
     if (payment.success) {
+      await convertToAudio();
       toast({
         title: 'Амжилттай',
         description: 'Амжилттай',
@@ -104,7 +100,7 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
     //   synth.speak(utterance);
     // }
 
-    await convertToAudio();
+    setOpen(false);
   };
 
   return (
@@ -142,11 +138,6 @@ export default function PaymentButton({ invoices, branches }: InvoiceProps) {
               </FormItem>
             ))}
           </RadioGroup>
-
-          <audio ref={audioPlayer}>
-            <source src={audio} type='audio/wav' />
-            Your browser does not support the audio tag.
-          </audio>
 
           <div className='flex justify-end items-center gap-2'>
             <DialogClose asChild>
